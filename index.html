@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aroma Wave by Capital – Premier Cafe, Gandhidham</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brown:#4a2c17;
+  --caramel:#c8813a;
+  --gold:#e8a84c;
+  --cream:#fdf6ed;
+  --dark:#1a0e05;
+  --text:#3a2010;
+  --light:#fff9f2;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:999;background:rgba(26,14,5,0.92);backdrop-filter:blur(10px);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:70px;transition:background .3s}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--gold);letter-spacing:1px;line-height:1.2}
+.nav-logo span{display:block;font-size:.7rem;color:var(--caramel);font-family:'Lato',sans-serif;letter-spacing:3px;font-weight:300;text-transform:uppercase}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:#e0cbb4;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;transition:color .3s;font-weight:700}
+.nav-links a:hover{color:var(--gold)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.hamburger span{width:25px;height:2px;background:var(--gold);transition:.3s;display:block}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:70px;left:0;width:100%;background:rgba(26,14,5,0.97);padding:2rem;flex-direction:column;gap:1.5rem;z-index:998}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:#e0cbb4;font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:.5rem 0;border-bottom:1px solid rgba(200,129,58,.2)}
+.mobile-menu a:hover{color:var(--gold)}
+
+/* HERO */
+#hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-image:url('https://lh3.googleusercontent.com/gps-cs-s/APNQkAFYBWjbPXWR7NRNGKnKj8420pR9MNFy5ufXPPvCKWCHbHNA2kULCqFQBN399-fuMM8On4i4mopg3t9rviuTRKlB6eqfMiu0XMw_gEDGBHLqkkeaVnTHka5_-5NKxIQSmNqAxAytmlJ42t4=w1920-h1080-k-no');background-size:cover;background-position:center;filter:brightness(.45)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(26,14,5,.3) 0%,rgba(26,14,5,.7) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 1rem;max-width:860px}
+.hero-tag{display:inline-block;color:var(--gold);font-size:.8rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:1rem;font-weight:700;opacity:0}
+.hero-title{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.2rem;opacity:0}
+.hero-title em{color:var(--gold);font-style:normal}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:#e0cbb4;margin-bottom:2.5rem;font-weight:300;letter-spacing:1px;opacity:0}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0}
+.btn-primary{background:var(--caramel);color:#fff;padding:.9rem 2.2rem;border-radius:50px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:.85rem;transition:background .3s,transform .2s;border:2px solid var(--caramel)}
+.btn-primary:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:#fff;padding:.9rem 2.2rem;border-radius:50px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:.85rem;border:2px solid rgba(255,255,255,.5);transition:.3s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero-rating{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.6rem;color:#fff;font-size:.9rem;z-index:2}
+.stars{color:var(--gold);letter-spacing:2px}
+
+/* SECTIONS */
+section{padding:5rem 5%}
+.section-label{font-size:.75rem;letter-spacing:4px;text-transform:uppercase;color:var(--caramel);font-weight:700;margin-bottom:.6rem}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--brown);margin-bottom:1rem;line-height:1.2}
+.section-divider{width:60px;height:3px;background:var(--caramel);border-radius:2px;margin-bottom:1.8rem}
+.fade-in{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ABOUT */
+#about{background:var(--light)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;max-width:1200px;margin:0 auto}
+.about-img-wrap{position:relative}
+.about-img-wrap img{width:100%;height:450px;object-fit:cover;border-radius:16px}
+.about-badge{position:absolute;bottom:-20px;right:-20px;background:var(--caramel);color:#fff;width:110px;height:110px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Playfair Display',serif;box-shadow:0 8px 30px rgba(200,129,58,.4)}
+.about-badge .big{font-size:1.8rem;font-weight:700;line-height:1}
+.about-badge .small{font-size:.65rem;letter-spacing:1px;text-align:center;line-height:1.3}
+.about-text p{color:#5a3a20;line-height:1.9;font-size:1.05rem;margin-bottom:1.2rem}
+.about-features{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem}
+.feat-item{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:700;color:var(--brown)}
+.feat-item svg{color:var(--caramel);flex-shrink:0}
+
+/* SERVICES */
+#services{background:var(--cream)}
+.services-header{text-align:center;margin-bottom:3rem}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto}
+.service-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(74,44,23,.08);transition:transform .3s,box-shadow .3s}
+.service-card:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(74,44,23,.15)}
+.service-img{height:220px;overflow:hidden}
+.service-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.service-card:hover .service-img img{transform:scale(1.05)}
+.service-body{padding:1.5rem}
+.service-icon{width:50px;height:50px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.5rem}
+.service-body h3{font-size:1.3rem;color:var(--brown);margin-bottom:.6rem}
+.service-body p{font-size:.9rem;color:#6a4a30;line-height:1.7}
+
+/* REVIEWS */
+#reviews{background:var(--brown)}
+.reviews-header{text-align:center;margin-bottom:3rem}
+.reviews-header .section-title{color:#fff}
+.reviews-header .section-label{color:var(--gold)}
+.reviews-header .section-divider{background:var(--gold);margin:0 auto 1.8rem}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto}
+.review-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:2rem;position:relative}
+.review-quote{font-size:3rem;line-height:1;color:var(--gold);opacity:.4;font-family:'Playfair Display',serif;position:absolute;top:1rem;right:1.5rem}
+.review-stars{color:var(--gold);font-size:1rem;letter-spacing:3px;margin-bottom:.8rem}
+.review-text{color:#e0cbb4;font-size:.95rem;line-height:1.8;margin-bottom:1.2rem;font-style:italic}
+.review-author{color:#fff;font-weight:700;font-size:.9rem}
+
+/* INSTAGRAM */
+#instagram{background:var(--light)}
+.insta-header{text-align:center;margin-bottom:3rem}
+.insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:1200px;margin:0 auto}
+.insta-post{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 15px rgba(74,44,23,.1);transition:transform .3s,box-shadow .3s}
+.insta-post:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(74,44,23,.18)}
+.insta-img-wrap{position:relative;aspect-ratio:1;overflow:hidden}
+.insta-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.insta-post:hover .insta-img-wrap img{transform:scale(1.07)}
+.insta-overlay{position:absolute;inset:0;background:rgba(26,14,5,0);transition:background .3s;display:flex;align-items:center;justify-content:center}
+.insta-post:hover .insta-overlay{background:rgba(26,14,5,.45)}
+.insta-overlay svg{opacity:0;transition:opacity .3s;color:#fff;width:36px;height:36px}
+.insta-post:hover .insta-overlay svg{opacity:1}
+.insta-body{padding:.9rem 1rem}
+.insta-caption{font-size:.82rem;color:#5a3a20;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.5rem}
+.insta-likes{font-size:.78rem;color:var(--caramel);font-weight:700;display:flex;align-items:center;gap:.3rem}
+.insta-follow-btn{display:flex;align-items:center;justify-content:center;margin-top:2.5rem}
+
+/* HOURS & CONTACT */
+#contact{background:var(--cream)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto;align-items:start}
+.hours-table{width:100%;border-collapse:collapse;margin-top:1.5rem}
+.hours-table tr{border-bottom:1px solid rgba(200,129,58,.15)}
+.hours-table td{padding:.7rem .2rem;font-size:.95rem;color:var(--text)}
+.hours-table td:first-child{font-weight:700;color:var(--brown)}
+.contact-info{margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem}
+.contact-item{display:flex;gap:.9rem;align-items:flex-start}
+.contact-icon{width:44px;height:44px;background:var(--caramel);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-icon svg{color:#fff;width:20px;height:20px}
+.contact-item h4{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--caramel);margin-bottom:.2rem}
+.contact-item p{font-size:.95rem;color:var(--text);line-height:1.6}
+.map-wrap{border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(74,44,23,.15);margin-top:2rem}
+.map-wrap iframe{display:block;width:100%;height:320px;border:none}
+
+/* FOOTER */
+footer{background:var(--dark);color:#a07850;padding:3rem 5% 1.5rem;text-align:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--gold);margin-bottom:.5rem}
+.footer-sub{font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--caramel);margin-bottom:1.5rem}
+.footer-links{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.footer-links a{color:#a07850;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-divider{width:100%;height:1px;background:rgba(255,255,255,.06);margin:1.5rem 0}
+.footer-copy{font-size:.8rem;color:#6a4a30}
+
+/* FLOAT CTA */
+.float-call{position:fixed;bottom:2rem;right:2rem;background:var(--caramel);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 25px rgba(200,129,58,.5);z-index:997;transition:transform .3s,background .3s;animation:pulse 2s infinite}
+.float-call:hover{background:var(--gold);transform:scale(1.1)}
+@keyframes pulse{0%,100%{box-shadow:0 6px 25px rgba(200,129,58,.5)}50%{box-shadow:0 6px 40px rgba(200,129,58,.85)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .services-grid,.reviews-grid,.insta-grid{grid-template-columns:repeat(2,1fr)}
+  .about-img-wrap img{height:320px}
+  .about-badge{right:10px;bottom:-15px}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .services-grid,.reviews-grid{grid-template-columns:1fr}
+  .insta-grid{grid-template-columns:repeat(2,1fr)}
+  section{padding:3.5rem 5%}
+  .hero-btns{flex-direction:column;align-items:center}
+}
+@media(max-width:400px){
+  .insta-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Aroma Wave <span>by Capital</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Experience</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#instagram">Instagram</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#services" onclick="closeMenu()">Experience</a>
+  <a href="#reviews" onclick="closeMenu()">Reviews</a>
+  <a href="#instagram" onclick="closeMenu()">Instagram</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Premier Café · Gandhidham</div>
+    <h1 class="hero-title">Where Every Sip Tells a <em>Story</em></h1>
+    <p class="hero-sub">Exceptional coffee, exquisite ambience & unforgettable moments await you</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Visit Us Today</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Aroma%20Wave%20by%20capital&query_place_id=ChIJgUBqKAC5UDkRhz3780QEGl0" target="_blank" class="btn-outline">Get Directions</a>
+    </div>
+  </div>
+  <div class="hero-rating">
+    <span class="stars">★★★★★</span>
+    <span><strong style="color:#fff">4.5</strong> / 5 &nbsp;·&nbsp; 101 Reviews</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid fade-in">
+    <div class="about-img-wrap">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFkr3BLKRkXsxq4J8sc4wRtvVgShF5c6eNMEo1ffV7pF2sOSqFzP6cxmPOBUj8Oly-dDxws4d0hibTfZlKWDoD7gKd7PtFcIVPCC3fPPy6pzkrAtz1qYIBbi0iQ_Ei0SqUJoby1n2iaNtEm=w1920-h1080-k-no" alt="Aroma Wave Interior" onerror="this.style.display='none'">
+      <div class="about-badge">
+        <div class="big">4.5★</div>
+        <div class="small">101 Happy Guests</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">A Premier Café Experience</h2>
+      <div class="section-divider"></div>
+      <p>Aroma Wave by Capital is Gandhidham's premier café destination, crafted for those who appreciate the finer things — outstanding coffee, captivating interiors, and a warm welcoming atmosphere that keeps you coming back.</p>
+      <p>Nestled in the heart of Adipur, we blend contemporary design with cozy comfort, offering a space perfect for morning coffees, evening conversations, and everything in between — open daily from 11 AM to 1 AM.</p>
+      <div class="about-features">
+        <div class="feat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          Amazing Ambience
+        </div>
+        <div class="feat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z"/></svg>
+          Premium Coffee
+        </div>
+        <div class="feat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>
+          Best Service
+        </div>
+        <div class="feat-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.5 2C6.26 2 2 6.26 2 11.5S6.26 21 11.5 21c1.08 0 2.13-.17 3.11-.45L20 22l-1.05-5.69C20.17 14.87 21 13.27 21 11.5 21 6.26 16.74 2 11.5 2z"/></svg>
+          Great Vibes
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header fade-in">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Our Signature Experience</h2>
+    <div class="section-divider" style="margin:0 auto 1rem"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <div class="service-img">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAE0t_Gs69Xtiz0hdwmNqDL5UYT4Vvf8r8V8Fot4bfonp6WNLkprTagWS6hbGTc7LhTZ_BL29R60Pqyj1IaiAUswZ8UaOi9yaBMJ3RRKhnhRYlxBqkIew3N7nmxWHXmpTIY6DH6vSJ0JkAA=w1920-h1080-k-no" alt="Artisan Coffee" onerror="this.style.display='none'">
+      </div>
+      <div class="service-body">
+        <div class="service-icon">☕</div>
+        <h3>Artisan Coffee</h3>
+        <p>Expertly crafted brews using premium beans — from silky lattes to bold espressos, every cup is a masterpiece.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-img">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAE16ZFYnsFMfQSexRPlAAMjZSlk6r_FNkdQWCMDRAHMQPwXelN-Zjuv1LMDTP81WXp7GKoByN9V_R2AgUupY1a4woLEgwc7FbJnEN1rJqDn2XzB5fRCJqxGZg2s2HCSuyriItjc3E31bjmb=w1920-h1080-k-no" alt="Delicious Food" onerror="this.style.display='none'">
+      </div>
+      <div class="service-body">
+        <div class="service-icon">🍽️</div>
+        <h3>Curated Food Menu</h3>
+        <p>Savor an extensive menu of delectable bites and meals crafted to complement your beverage experience perfectly.</p>
+      </div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-img">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGmgVIKOmmNtgTwOlQ9f0BQkcQtoHDBUEZyr85EOVlLHoUqEViIpZTp8AO7i8QtzgUgEygG1X9HSsZ-lZzsx0MUBZjFu3sJGzEsRAjJ7GO6052NQU8BWlk0rwnvEtZ92_BxzeLEf0c98Z7m=w1920-h1080-k-no" alt="Premium Ambience" onerror="this.style.display='none'">
+      </div>
+      <div class="service-body">
+        <div class="service-icon">✨</div>
+        <h3>Stunning Ambience</h3>
+        <p>An interior designed to impress — warm lighting, stylish décor and a vibe that sets the perfect mood for any occasion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header fade-in">
+    <div class="section-label">Guest Voices</div>
+    <h2 class="section-title">What Our Guests Say</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card fade-in">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Amazing ambience and good coffee</p>
+      <div class="review-author">— Nikhil Chandnani</div>
+    </div>
+    <div class="review-card fade-in">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Best service and atmosphere — best interior...</p>
+      <div class="review-author">— Nitesh Bhut</div>
+    </div>
+    <div class="review-card fade-in">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Best service and food also</p>
+      <div class="review-author">— Zala Rajubha</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="insta-header fade-in">
+    <div class="section-label">Social Feed</div>
+    <h2 class="section-title">Follow Our Journey</h2>
+    <div class="section-divider" style="margin:0 auto 1rem"></div>
+    <p style="color:#5a3a20;font-size:.95rem">Stay connected with us on Instagram for the latest updates & moments</p>
+  </div>
+  <div class="insta-grid">
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DV_H15Lk6H1/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-ord5-3.cdninstagram.com%2Fv%2Ft51.71878-15%2F652800964_922060147380802_895108883856595827_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-ord5-3.cdninstagram.com%26_nc_cat%3D110%26_nc_oc%3DQ6cZ2gGfhiQaVnJdPTNbDGuYmWSM8znFVE1NoQacvwm53SVpHcRF5eMyWDNj_EsKK1vOUUAnpLfCllGAdE-awOt6XiYB%26_nc_ohc%3DF9nXsdblsYYQ7kNvwFkhRZL%26_nc_gid%3DCNHUK4xY6i9BPr_ZP4Hacg%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af9sW4WDrkuZKcWQC9a33txk_Pl77XfZB1vq9mmHm9YU4g%26oe%3D6A28CEC7%26_nc_sid%3D10d13b" alt="Aroma Ka Swaad" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">Aroma Ka Swaad ✨ #reels #reelsinstagram #instagram #viral #trendingpost</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 12</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DWhC8fVE8LF/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-lax3-2.cdninstagram.com%2Fv%2Ft51.71878-15%2F657740218_956936060373335_2668008070697048928_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-lax3-2.cdninstagram.com%26_nc_cat%3D111%26_nc_oc%3DQ6cZ2gFNBHSVTw9gxMqfCEJJEveAOwb0Y8oOr6U2QGWRVoofkHtxvkTZVDbl9M0b7joJmbw%26_nc_ohc%3DEABH1vATowIQ7kNvwGX3Bvf%26_nc_gid%3DVR-ADeQJO4IRXtCVI99iGg%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af9Z1vuNdp4HDdPSvjUC9PVIVXMlhIlUmStoCwy3t3FiLQ%26oe%3D6A28A46B%26_nc_sid%3D10d13b" alt="It's hmm" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">It's hmm #trendingvideo #reelsinstagram #viral #trending</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 6</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DVwGsxsD2QK/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-phl2-1.cdninstagram.com%2Fv%2Ft51.82787-15%2F649680142_18411714652133351_6529154597154754788_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-phl2-1.cdninstagram.com%26_nc_cat%3D111%26_nc_oc%3DQ6cZ2gFtp2GdJM8mTBnn1CpvtfSHWS18NG3DvqMyABjI9BeCwdoEMTBfZQLipK5bQpXTL5A%26_nc_ohc%3D20IjmLkdkX8Q7kNvwEhFI3p%26_nc_gid%3DBCofSdsTz3B984gWyM7ZTg%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af-FWJDoSjbaNWErwDQ8Oifh78WtByXaRM8YP1h8YZyivQ%26oe%3D6A28D1EF%26_nc_sid%3D10d13b" alt="Things Every Child Should Learn" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">Things Every Child Should Learn ✅️ ❌️Not taught in schools..</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 120</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DWS_n9LAn8-/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-ord5-2.cdninstagram.com%2Fv%2Ft51.71878-15%2F656834887_1742857213790596_7507466628820971611_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-ord5-2.cdninstagram.com%26_nc_cat%3D104%26_nc_oc%3DQ6cZ2gE39R9UmM9k9_6pglLFjjl-d6b3iYYPO1ckaLk0Noxhw3F87INFASAn_f44oic-r8A%26_nc_ohc%3D7otROFoMcakQ7kNvwEy6AK2%26_nc_gid%3Dxl_VW9ZuPJTzGUoR8MLnGA%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af-DadyoDXBambbQi8qRWZuIQ5vOW-oxpk8vtnTgT0AFyA%26oe%3D6A28C1B2%26_nc_sid%3D10d13b" alt="Instagram post" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">❤️🫠 #reels #reelsinstagram #instagram #viral #trending</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 14</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DXBUd72iJG2/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-lax3-1.cdninstagram.com%2Fv%2Ft51.71878-15%2F671166298_3055134518018648_2393233213133222069_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-lax3-1.cdninstagram.com%26_nc_cat%3D108%26_nc_oc%3DQ6cZ2gHZg2W6eLlqcuTUjlo-VcIYO0M4tuWPLJNDCPf6xxDnN0zVUVYyVYpPT-50erK4UH0%26_nc_ohc%3D-C6L6s2RNbwQ7kNvwEiu3Um%26_nc_gid%3DhQRZf7kd1bI7FVcb1TFVBQ%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af8Z9oLa6PCV2WaWpVVNnTYPex1W4I9h_Y61pYWTyzkE9g%26oe%3D6A28B2E2%26_nc_sid%3D10d13b" alt="Chess play" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">A Normal Chess play... #storytelling #shoot #chess #shots #amazing</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 19</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DVa4S6NAmVC/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-lax3-1.cdninstagram.com%2Fv%2Ft51.71878-15%2F643586168_1435008718027964_7564800262391736322_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-lax3-1.cdninstagram.com%26_nc_cat%3D108%26_nc_oc%3DQ6cZ2gGg8XGBY5aCY4P-st3tLDDcaZXjTA_fjpDRswnHAzPaRskruv201fgBwTDw5dGLIqg%26_nc_ohc%3D18lQEmsOPzQQ7kNvwHaRz7y%26_nc_gid%3DbIya13qd2yXeEZIWRhuHvQ%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af-fDjxclfNEmJP27ocbHbATELGnPUXA5b-hJCoTPMmIEw%26oe%3D6A28C555%26_nc_sid%3D10d13b" alt="Aroma X Shauma" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">Aroma X Shauma 🔥🚀 #reels #reelsinstagram #instagram #viral #trending</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 67</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DVTOCBegqCq/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-atl3-3.cdninstagram.com%2Fv%2Ft51.71878-15%2F643086372_888943383980434_4846986573636827170_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-atl3-3.cdninstagram.com%26_nc_cat%3D110%26_nc_oc%3DQ6cZ2gE6mw8qIa1M7WpWO0fGsJVlWkOhx81sLbbCoqQL_LyFF1wHX36p5HZWSKu8Nru7o7s%26_nc_ohc%3DYdlpNV1---0Q7kNvwHHdXrJ%26_nc_gid%3D9U2VI0aGikoXYARQIyCs4w%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af_-5HntweqBwtr10DixNlKprdZwFprXrJT5CzmtdQnoFQ%26oe%3D6A289E41%26_nc_sid%3D10d13b" alt="The Therapy" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">The Therapy >> #reels #reelsinstagram #instagram #viral #trendingvideo</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 20</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DVkqrNSAr_v/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-lga3-3.cdninstagram.com%2Fv%2Ft51.71878-15%2F649228389_3405149696308508_2634794309619755536_n.jpg%3Fstp%3Ddst-jpg_e15_tt6%26_nc_ht%3Dscontent-lga3-3.cdninstagram.com%26_nc_cat%3D108%26_nc_oc%3DQ6cZ2gHTh4kWyQLIS7h8_HXLPuTbVCjJ99AFL3z2jhrAzrhb9Fra4XlX3HHNGTCCgW0Aui0%26_nc_ohc%3DCQaajvBdCQMQ7kNvwGr2Auu%26_nc_gid%3DsuLsX_uKBfao2AfDds3oeQ%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af8Srs-Ep0BapWE9AQS7SWEnSYAJxRbBQLxQ2eHWq47gQQ%26oe%3D6A28A208%26_nc_sid%3D10d13b" alt="Aroma Wave By Capital" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">Aroma Wavé By Capital ✨ #reels #reelsinstagram #instagram #viral #trending</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 15</div>
+      </div>
+    </div>
+
+    <div class="insta-post fade-in">
+      <a href="https://www.instagram.com/p/DVsXZz2gqfT/" target="_blank">
+        <div class="insta-img-wrap">
+          <img src="https://images.weserv.nl/?url=https%3A%2F%2Fscontent-atl3-3.cdninstagram.com%2Fv%2Ft51.82787-15%2F649220706_17897569989409702_1479868020222120919_n.jpg%3Fstp%3Ddst-jpg_e35_p1080x1080_sh2.08_tt6%26_nc_ht%3Dscontent-atl3-3.cdninstagram.com%26_nc_cat%3D110%26_nc_oc%3DQ6cZ2gHgmdXVSVgRL6PQqyupSiu8m4SI8vsTck1l0v_4YuLkJZzcoQ1u6ZIJ0CsmQr5w2kM%26_nc_ohc%3DGCwKPXvW3vYQ7kNvwFr_zVp%26_nc_gid%3DUaVRPmx3QCUVbMP1wi6yVw%26edm%3DAPs17CUBAAAA%26ccb%3D7-5%26oh%3D00_Af_a5UFkiy_3YIojvnU-Ezo8iJDVoIPel4B6iMjwdMoGug%26oe%3D6A28C13C%26_nc_sid%3D10d13b" alt="Where you sit" onerror="this.style.display='none'">
+          <div class="insta-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+        </div>
+      </a>
+      <div class="insta-body">
+        <p class="insta-caption">Where you sit change the vibe 🤎</p>
+        <div class="insta-likes"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> 25</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="insta-follow-btn">
+    <a href="https://www.instagram.com/" target="_blank" class="btn-primary" style="display:flex;align-items:center;gap:.6rem">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Follow Us on Instagram
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="fade-in">
+      <div class="section-label">Opening Hours</div>
+      <h2 class="section-title">Visit Us Anytime</h2>
+      <div class="section-divider"></div>
+      <table class="hours-table">
+        <tr><td>Monday</td><td>11:00 AM – 1:00 AM</td></tr>
+        <tr><td>Tuesday</td><td>11:00 AM – 1:00 AM</td></tr>
+        <tr><td>Wednesday</td><td>11:00 AM – 1:00 AM</td></tr>
+        <tr><td>Thursday</td><td>11:00 AM – 1:00 AM</td></tr>
+        <tr><td>Friday</td><td>11:00 AM – 1:00 AM</td></tr>
+        <tr><td>Saturday</td><td>11:00 AM – 1:00 AM</td></tr>
+        <tr><td>Sunday</td><td>11:00 AM – 1:00 AM</td></tr>
+      </table>
+      <div class="contact-info" style="margin-top:2rem">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          </div>
+          <div>
+            <h4>Phone</h4>
+            <p><a href="tel:+919998899360" style="color:var(--text)">+91 99988 99360</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <div>
+            <h4>Address</h4>
+            <p>Plot no 12, Rabindranath Tagore Rd, near carzspa,<br>Ward 3B, Adipur, Gandhidham, Gujarat 370205</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+          </div>
+          <div>
+            <h4>Hours</h4>
+            <p>Open Daily: 11:00 AM – 1:00 AM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in">
+      <div class="section-label">Find Us</div>
+      <h2 class="section-title">Our Location</h2>
+      <div class="section-divider"></div>
+      <div class="map-wrap">
+        <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU3vOs&q=23.0678525,70.0942207&zoom=16" allowfullscreen loading="lazy" title="Aroma Wave by Capital Map"></iframe>
+      </div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Aroma%20Wave%20by%20capital&query_place_id=ChIJgUBqKAC5UDkRhz3780QEGl0" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:.6rem;margin-top:1.5rem">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Open in Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Aroma Wave</div>
+  <div class="footer-sub">by Capital · Gandhidham</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#services">Experience</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#instagram">Instagram</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:+919998899360">Call Us</a>
+  </div>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">© 2024 Aroma Wave by Capital. All rights reserved. · Plot no 12, Rabindranath Tagore Rd, Adipur, Gandhidham, Gujarat 370205</p>
+</footer>
+
+<!-- FLOAT CALL -->
+<a href="tel:+919998899360" class="float-call" title="Call Now">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+</a>
+
+<script>
+// HAMBURGER
+function toggleMenu(){
+  document.getElementById('hamburger').classList.toggle('active');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// GSAP HERO
+gsap.registerPlugin(ScrollTrigger);
+gsap.to('.hero-tag',{opacity:1,y:0,duration:.8,delay:.3,ease:'power3.out'});
+gsap.from('.hero-title',{opacity:0,y:60,duration:1,delay:.6,ease:'power3.out',onComplete:()=>{document.querySelector('.hero-title').style.opacity=''}});
+gsap.to('.hero-title',{opacity:1,y:0,duration:1,delay:.6,ease:'power3.out'});
+gsap.to('.hero-sub',{opacity:1,y:0,duration:.8,delay:1,ease:'power3.out'});
+gsap.to('.hero-btns',{opacity:1,y:0,duration:.8,delay:1.3,ease:'power3.out'});
+
+// INTERSECTION OBSERVER
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}
+  });
+},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+// STICKY NAV COLOR
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('navbar');
+  nav.style.background=window.scrollY>80?'rgba(26,14,5,0.98)':'rgba(26,14,5,0.92)';
+});
+
+// GSAP SCROLL PARALLAX HERO
+gsap.to('.hero-bg',{yPercent:30,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+</script>
+</body>
+</html>
